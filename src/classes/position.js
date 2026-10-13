@@ -9,7 +9,11 @@ export class Position {
   }
 
   hit() {
-    this.hit = true;
+    this.isHit = true;
+  }
+
+  getIsHit() {
+    return this.isHit;
   }
 
   hasShip() {

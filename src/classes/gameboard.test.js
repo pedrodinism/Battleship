@@ -5,3 +5,32 @@ test("setup", () => {
   const gameboard = new Gameboard();
   expect(gameboard.directions[3]).toBe(-10);
 });
+
+test("is valid position", () => {
+  const gameboard = new Gameboard();
+  const tests = [
+    { input: [7, 8, 9, 10, 11], output: false },
+    { input: [5, 6, 7, 8, 9], output: true },
+    { input: [0, 10, 20, 30, 40], output: true },
+    { input: [-10, 0, 10, 20, 30, 40], output: false },
+    { input: [0, 1, 2, 3, 4], output: true },
+  ];
+  tests.forEach((element) => {
+    expect(gameboard.isValidPosition(element.input)).toBe(element.output);
+  });
+});
+
+test("place ship, with position and randomly", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(5);
+  const position = [0, 1, 2, 3, 4];
+  gameboard.placeShip(ship, position);
+  expect(gameboard.shipCount).toBe(1);
+  const ship2 = new Ship(2);
+  gameboard.placeShip(ship2);
+  expect(gameboard.shipCount).toBe(2);
+  const placeSamePosition = () => {
+    gameboard.placeShip(ship, position);
+  };
+  expect(placeSamePosition).toThrow();
+});

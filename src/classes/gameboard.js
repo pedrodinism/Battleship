@@ -5,6 +5,7 @@ export class Gameboard {
   constructor() {
     this.positions = Array(100);
     this.directions = [1, -1, 10, -10]; // 1: 1 position to the right, -1: 1 position to the left, 10: 1 position below, -10: 1 position top
+    this.shipCount = 0;
     this.init();
   }
 
@@ -19,6 +20,10 @@ export class Gameboard {
       this.positions[i] = position;
       i++;
     }
+    return true;
+  }
+
+  placeShipsRandomly() {
     for (const value of this.ships()) {
       const ship = new Ship(value);
       this.placeShip(ship);
@@ -38,13 +43,13 @@ export class Gameboard {
       indexes.push(index);
       counter++;
     }
-    if (this.#isValidPosition(indexes)) {
+    if (this.isValidPosition(indexes)) {
       return indexes;
     }
     return undefined;
   }
 
-  #isValidPosition(array) {
+  isValidPosition(array) {
     let yPosition = [];
     let xPosition = [];
     for (const value of array) {
@@ -62,8 +67,23 @@ export class Gameboard {
     return sameY || sameX;
   }
 
-  placeShip(ship) {
-    const length = ship.length;
+  placeShip(ship, positions = null) {
+    if (!positions) {
+      positions = this.getRandomPosition(ship.length);
+    } else {
+      if (!this.isValidPosition(positions)) {
+        throw Error("invalid position");
+      }
+    }
+
+    for (const position of positions) {
+      this.positions[position].updateShip(ship);
+    }
+    this.shipCount++;
+    return true;
+  }
+
+  getRandomPosition(length) {
     let isFound = false;
     let positionIndex = this.#getRandomInt(0, 99);
     let positionCounter = 0;
@@ -92,10 +112,6 @@ export class Gameboard {
       positionCounter++;
     }
 
-    for (const position of positions) {
-      this.positions[position].updateShip(ship);
-    }
-    console.log(positions);
-    return true;
+    return positions;
   }
 }
