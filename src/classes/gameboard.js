@@ -5,7 +5,7 @@ export class Gameboard {
   constructor() {
     this.positions = Array(100);
     this.directions = [1, -1, 10, -10]; // 1: 1 position to the right, -1: 1 position to the left, 10: 1 position below, -10: 1 position top
-    this.shipCount = 0;
+    this.ships = [];
     this.init();
   }
 
@@ -79,8 +79,8 @@ export class Gameboard {
     for (const position of positions) {
       this.positions[position].updateShip(ship);
     }
-    this.shipCount++;
-    return true;
+    this.ships.push(ship);
+    return positions;
   }
 
   getRandomPosition(length) {
@@ -113,5 +113,22 @@ export class Gameboard {
     }
 
     return positions;
+  }
+
+  receiveAttack(index) {
+    const position = this.positions[index];
+    if (position.getIsHit()) {
+      throw Error("Square is already hit");
+    }
+    position.hit();
+  }
+
+  allShipsSunked() {
+    for (const ship of this.ships) {
+      if (!ship.isSunk()) {
+        return false;
+      }
+    }
+    return true;
   }
 }

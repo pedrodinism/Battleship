@@ -10,6 +10,9 @@ export class Position {
 
   hit() {
     this.isHit = true;
+    if (this.hasShip()) {
+      this.ship.hit();
+    }
   }
 
   getIsHit() {

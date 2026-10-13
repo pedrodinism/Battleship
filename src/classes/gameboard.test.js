@@ -25,12 +25,25 @@ test("place ship, with position and randomly", () => {
   const ship = new Ship(5);
   const position = [0, 1, 2, 3, 4];
   gameboard.placeShip(ship, position);
-  expect(gameboard.shipCount).toBe(1);
+  expect(gameboard.ships.length).toBe(1);
   const ship2 = new Ship(2);
   gameboard.placeShip(ship2);
-  expect(gameboard.shipCount).toBe(2);
+  expect(gameboard.ships.length).toBe(2);
   const placeSamePosition = () => {
     gameboard.placeShip(ship, position);
   };
   expect(placeSamePosition).toThrow();
+});
+
+test("receive attack", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  const position = [0, 1];
+  gameboard.placeShip(ship, position);
+  gameboard.receiveAttack(0);
+  expect(ship.isSunk()).toBe(false);
+  expect(gameboard.allShipsSunked()).toBe(false);
+  gameboard.receiveAttack(1);
+  expect(ship.isSunk()).toBe(true);
+  expect(gameboard.allShipsSunked()).toBe(true);
 });
