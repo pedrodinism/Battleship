@@ -1,5 +1,5 @@
-import { Position } from "./position";
-import { Ship } from "./ship";
+import { Position } from "./position.js";
+import { Ship } from "./ship.js";
 
 test("ship", () => {
   const position = new Position();

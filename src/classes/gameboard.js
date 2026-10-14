@@ -1,5 +1,5 @@
-import { Ship } from "./ship";
-import { Position } from "./position";
+import { Ship } from "./ship.js";
+import { Position } from "./position.js";
 
 export class Gameboard {
   constructor() {
@@ -9,7 +9,7 @@ export class Gameboard {
     this.init();
   }
 
-  ships() {
+  getShips() {
     return [5, 4, 3, 3, 2];
   }
 
@@ -23,8 +23,12 @@ export class Gameboard {
     return true;
   }
 
+  getPositions() {
+    return this.positions;
+  }
+
   placeShipsRandomly() {
-    for (const value of this.ships()) {
+    for (const value of this.getShips()) {
       const ship = new Ship(value);
       this.placeShip(ship);
     }
@@ -46,7 +50,6 @@ export class Gameboard {
     if (this.isValidPosition(indexes)) {
       return indexes;
     }
-    return undefined;
   }
 
   isValidPosition(array) {

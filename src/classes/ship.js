@@ -1,5 +1,3 @@
-import { Ship } from "./ship";
-
 export class Ship {
   constructor(length) {
     this.length = length;
