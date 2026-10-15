@@ -126,6 +126,18 @@ export class Gameboard {
     position.hit();
   }
 
+  receiveRandomAttack() {
+    let index = this.#getRandomInt(0, 99);
+    let isFound = false;
+    while (!isFound) {
+      if (this.positions[index].getIsHit()) {
+        continue;
+      }
+      isFound = true;
+    }
+    this.receiveAttack(index);
+  }
+
   allShipsSunked() {
     for (const ship of this.ships) {
       if (!ship.isSunk()) {

@@ -1,0 +1,18 @@
+.gameboard-cell {
+  border: 1px solid black;
+}
+
+.ship {
+  background-color: red;
+}
+
+.gameboard {
+  padding: 30px;
+  display: grid;
+  grid-template-rows: repeat(10, 20px);
+  grid-template-columns: repeat(10, 20px);
+}
+
+body {
+  box-sizing: border-box;
+}
