@@ -21,12 +21,12 @@ export function renderGameboard(player) {
 
   if (playerDiv) {
     playerDiv.innerHTML = "";
+  } else {
+    playerDiv = document.createElement("div");
+    playerDiv.className = "player-container";
+    playerDiv.id = id;
+    body.appendChild(playerDiv);
   }
-
-  playerDiv = document.createElement("div");
-  playerDiv.className = "player-container";
-  playerDiv.id = id;
-  body.appendChild(playerDiv);
 
   const titleDiv = document.createElement("div");
   titleDiv.className = "gameboard-title";
@@ -42,7 +42,7 @@ export function renderGameboard(player) {
     cell.className = "gameboard-cell";
     cell.setAttribute("data-cell", index);
     gameboardDiv.appendChild(cell);
-    if (row.hasShip() && isHuman) {
+    if (row.hasShip() && (isHuman || row.getIsHit())) {
       cell.classList.add("ship");
     }
     if (row.getIsHit()) {

@@ -120,22 +120,29 @@ export class Gameboard {
 
   receiveAttack(index) {
     const position = this.positions[index];
+    if (!position) {
+      throw Error("Position not found for index " + index);
+    }
     if (position.getIsHit()) {
       throw Error("Square is already hit");
     }
     position.hit();
+    return true;
   }
 
   receiveRandomAttack() {
+    let counter = 0;
     let index = this.#getRandomInt(0, 99);
     let isFound = false;
-    while (!isFound) {
-      if (this.positions[index].getIsHit()) {
+    while (!isFound && counter < 100) {
+      if (this.positions[index % 100].getIsHit()) {
+        counter++;
+        index++;
         continue;
       }
       isFound = true;
+      return this.receiveAttack(index % 100);
     }
-    this.receiveAttack(index);
   }
 
   allShipsSunked() {
