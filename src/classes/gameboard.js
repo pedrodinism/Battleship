@@ -47,19 +47,16 @@ export class Gameboard {
       indexes.push(index);
       counter++;
     }
-    if (this.isValidPosition(indexes)) {
+    if (this.isValidArea(indexes)) {
       return indexes;
     }
   }
 
-  isValidPosition(array) {
+  isValidArea(array) {
     let yPosition = [];
     let xPosition = [];
     for (const value of array) {
-      if (value < 0 || value > 99) {
-        return false;
-      }
-      if (this.positions[value].hasShip()) {
+      if (!this.isValidPosition(value)) {
         return false;
       }
       xPosition.push(value % 10);
@@ -67,14 +64,68 @@ export class Gameboard {
     }
     const sameY = yPosition.every((val) => val === yPosition[0]);
     const sameX = xPosition.every((val) => val === xPosition[0]);
-    return sameY || sameX;
+    if (!sameY && !sameX) {
+      return false;
+    }
+    const neighbours = this.getNeighbours(array);
+    console.log("array:" + array + " neighbours: " + neighbours);
+    for (const neighbour of neighbours) {
+      if (!this.isValidPosition(neighbour)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  isValidPosition(position) {
+    if (position < 0 || position > 99) {
+      return false;
+    }
+    if (this.positions[position].hasShip()) {
+      return false;
+    }
+    return true;
+  }
+
+  getNeighbours(array) {
+    const neighbours = []; //[-11, -10, -9, -1, 1, 9, 10, 11];
+    for (const position of array) {
+      let positionNeighbours = [];
+      if (position === 0) {
+        positionNeighbours = [1, 10, 11];
+      } else if (position === 9) {
+        positionNeighbours = [-1, 9, 10];
+      } else if (position === 90) {
+        positionNeighbours = [-10, -9, 1];
+      } else if (position === 99) {
+        positionNeighbours = [-10, -11, -1];
+      } else if (position > 0 && position < 9) {
+        positionNeighbours = [-1, 1, 9, 10, 11];
+      } else if (position % 10 === 0) {
+        positionNeighbours = [-10, -9, 1, 10, 11];
+      } else if (position % 9 === 0) {
+        positionNeighbours = [-11, -10, -1, 9, 10];
+      } else if (position > 90 && position < 99) {
+        positionNeighbours = [-11, -10, -9, -1, 1];
+      } else {
+        positionNeighbours = [-11, -10, -9, -1, 1, 9, 10, 11];
+      }
+      for (const value of positionNeighbours) {
+        const index = position + value;
+        if (neighbours.includes(index) || array.includes(index)) {
+          continue;
+        }
+        neighbours.push(index);
+      }
+    }
+    return neighbours;
   }
 
   placeShip(ship, positions = null) {
     if (!positions) {
       positions = this.getRandomPosition(ship.length);
     } else {
-      if (!this.isValidPosition(positions)) {
+      if (!this.isValidArea(positions)) {
         throw Error("invalid position");
       }
     }
@@ -114,7 +165,7 @@ export class Gameboard {
       positionIndex++;
       positionCounter++;
     }
-
+    console.log(positions);
     return positions;
   }
 

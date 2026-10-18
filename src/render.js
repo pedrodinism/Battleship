@@ -4,7 +4,7 @@ export function renderGameboard(player) {
     return;
   }
 
-  const body = document.querySelector("body");
+  const mainContent = document.querySelector(".mainContent");
 
   let id = "";
   let label = "";
@@ -25,7 +25,7 @@ export function renderGameboard(player) {
     playerDiv = document.createElement("div");
     playerDiv.className = "player-container";
     playerDiv.id = id;
-    body.appendChild(playerDiv);
+    mainContent.appendChild(playerDiv);
   }
 
   const titleDiv = document.createElement("div");

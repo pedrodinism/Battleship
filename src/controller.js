@@ -24,6 +24,7 @@ export function triggerAttack(cell) {
   if (winner) {
     return;
   }
+
   if (gameboardComputer.positions[cell].getIsHit()) {
     alert("position was already hitted;");
     return;

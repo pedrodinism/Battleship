@@ -7,12 +7,32 @@
 }
 
 .gameboard {
-  padding: 30px;
   display: grid;
-  grid-template-rows: repeat(10, 20px);
-  grid-template-columns: repeat(10, 20px);
+  grid-template-rows: repeat(10, 30px);
+  grid-template-columns: repeat(10, 30px);
 }
 
-body {
-  box-sizing: border-box;
+.player-container {
+  padding: 30px;
+}
+
+.gameboard-title {
+  text-align: center;
+  padding: 10px;
+}
+
+.gameboard-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
 }
