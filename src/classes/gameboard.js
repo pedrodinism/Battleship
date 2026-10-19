@@ -154,7 +154,7 @@ export class Gameboard {
       let directionCounter = 0;
       while (directionCounter < 4 && isFound === false) {
         const direction = this.directions[directionIndex % 4];
-        positions = this.#getPositions(length, positionIndex, direction);
+        positions = this.#getPositions(length, positionIndex % 100, direction);
         if (positions) {
           isFound = true;
           continue;
