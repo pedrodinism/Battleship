@@ -68,7 +68,6 @@ export class Gameboard {
       return false;
     }
     const neighbours = this.getNeighbours(array);
-    console.log("array:" + array + " neighbours: " + neighbours);
     for (const neighbour of neighbours) {
       if (!this.isValidPosition(neighbour)) {
         return false;
@@ -165,7 +164,6 @@ export class Gameboard {
       positionIndex++;
       positionCounter++;
     }
-    console.log(positions);
     return positions;
   }
 

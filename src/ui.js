@@ -10,6 +10,12 @@ export function addListeners() {
       return;
     }
     triggerAttack(cell);
-    console.log("attacked triggered on cell " + cell);
   });
+
+  /*
+  const restartButton = document.getElementById("restart-button");
+  restartButton.addEventListener("click", () => {
+    restartGame();
+  });
+  */
 }

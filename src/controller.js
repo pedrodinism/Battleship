@@ -1,14 +1,14 @@
 import { Gameboard } from "./classes/gameboard.js";
-import { renderGameboard } from "./render.js";
+import { openGameOverDialog, renderGameboard } from "./render.js";
 import { Player } from "./classes/player.js";
 
-const gameboardComputer = new Gameboard();
+let gameboardComputer = new Gameboard();
 gameboardComputer.placeShipsRandomly();
-const computer = new Player(false, gameboardComputer);
+let computer = new Player(false, gameboardComputer);
 
-const gameboardPlayer = new Gameboard();
+let gameboardPlayer = new Gameboard();
 gameboardPlayer.placeShipsRandomly();
-const player = new Player(true, gameboardPlayer);
+let player = new Player(true, gameboardPlayer);
 
 let winner = null;
 
@@ -33,13 +33,13 @@ export function triggerAttack(cell) {
   renderGameboard(computer);
   if (gameboardComputer.allShipsSunked()) {
     winner = true;
-    alert("You won!");
+    openGameOverDialog("Player");
   }
 
   gameboardPlayer.receiveRandomAttack();
   renderGameboard(player);
   if (gameboardPlayer.allShipsSunked()) {
     winner = true;
-    alert("Computer won!");
+    openGameOverDialog("Computer");
   }
 }

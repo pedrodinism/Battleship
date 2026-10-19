@@ -1,3 +1,27 @@
+/* html */
+
+body {
+  margin: 0;
+}
+
+/* Layout */
+
+.mainContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  background-color: gray;
+  padding: 10px;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+/* classes */
+
 .gameboard-cell {
   border: 1px solid black;
 }
@@ -27,12 +51,7 @@
   align-items: center;
 }
 
-.mainContent {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header {
-  text-align: center;
+.winner-container {
+  font-size: 30px;
+  font-weight: 800;
 }

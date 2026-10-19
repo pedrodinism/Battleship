@@ -50,3 +50,31 @@ export function renderGameboard(player) {
     }
   });
 }
+
+export function renderGameOverDialog(winner) {
+  // needs logic to be rerendered
+  const mainContent = document.querySelector(".mainContent");
+
+  const dialog = document.createElement("dialog");
+  dialog.id = "gameOverDialog";
+  mainContent.appendChild(dialog);
+
+  const winnerDiv = document.createElement("div");
+  winnerDiv.textContent = winner + " won!";
+  winnerDiv.className = "winner-container";
+  dialog.appendChild(winnerDiv);
+
+  const button = document.createElement("button");
+  button.textContent = "Play again";
+  button.id = "restart-button";
+}
+
+export function closeGameOverDialog() {
+  const dialog = document.getElementById("gameOverDialog");
+  dialog.close();
+}
+
+export function openGameOverDialog() {
+  const dialog = document.getElementById("gameOverDialog");
+  dialog.showModal();
+}
