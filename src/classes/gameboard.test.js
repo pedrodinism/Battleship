@@ -75,3 +75,8 @@ test("get next attack unhappy flow", () => {
   gameboard.receiveAttack(18);
   expect(gameboard.getNextAttack()).toBe(undefined);
 });
+
+test("neighbours", () => {
+  const gameboard = new Gameboard();
+  expect(gameboard.getNeighbours2([0])).toBe([1, 10, 11]);
+});

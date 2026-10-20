@@ -25,7 +25,7 @@ export function startGame() {
   renderGameboard(player);
   addListeners();
 
-  gameboardPlayer.receiveRandomAttack();
+  gameboardPlayer.attack();
   renderGameboard(player);
 }
 
@@ -59,7 +59,7 @@ export function triggerAttack(cell) {
     openGameOverDialog("Player");
   }
 
-  gameboardPlayer.receiveRandomAttack();
+  gameboardPlayer.attack();
   renderGameboard(player);
   if (gameboardPlayer.allShipsSunked()) {
     winner = true;

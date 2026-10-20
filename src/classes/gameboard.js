@@ -147,6 +147,32 @@ export class Gameboard {
     return neighbours;
   }
 
+  getNeighbours2(array, isGetOblique = true) {
+    const neighbours = [];
+    let possibleNeighbours = [-10, -1, 1, 10];
+    if (isGetOblique) {
+      possibleNeighbours.push(...[-11, -9, 9, 11]);
+    }
+
+    for (const position of array) {
+      const positionNeighbours = [];
+      for (const neighbour of possibleNeighbours) {
+        if (this.isValidArea([neighbour + position, position], false)) {
+          positionNeighbours.push(neighbour + position);
+        }
+      }
+      for (const value of positionNeighbours) {
+        const index = position + value;
+        if (neighbours.includes(index) || array.includes(index)) {
+          continue;
+        }
+        neighbours.push(index);
+      }
+    }
+    console.log(neighbours);
+    return neighbours;
+  }
+
   placeShip(ship, positions = null) {
     if (!positions) {
       positions = this.getRandomPosition(ship.length);
@@ -178,7 +204,6 @@ export class Gameboard {
           direction,
         );
         if (possiblePositions) {
-          isFound = true;
           return possiblePositions;
         }
       }
@@ -197,7 +222,7 @@ export class Gameboard {
     return true;
   }
 
-  receiveRandomAttack() {
+  attack() {
     const targetAttack = this.getNextAttack();
     if (targetAttack) {
       return this.receiveAttack(targetAttack);
