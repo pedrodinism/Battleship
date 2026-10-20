@@ -51,22 +51,27 @@ export function renderGameboard(player) {
   });
 }
 
-export function renderGameOverDialog(winner) {
-  // needs logic to be rerendered
+export function renderGameOverDialog() {
   const mainContent = document.querySelector(".mainContent");
 
-  const dialog = document.createElement("dialog");
-  dialog.id = "gameOverDialog";
-  mainContent.appendChild(dialog);
+  let dialog = document.getElementById("gameOverDialog");
+
+  if (!dialog) {
+    dialog = document.createElement("dialog");
+    dialog.id = "gameOverDialog";
+    mainContent.appendChild(dialog);
+  } else {
+    dialog.innerHTML = "";
+  }
 
   const winnerDiv = document.createElement("div");
-  winnerDiv.textContent = winner + " won!";
   winnerDiv.className = "winner-container";
   dialog.appendChild(winnerDiv);
 
   const button = document.createElement("button");
   button.textContent = "Play again";
   button.id = "restart-button";
+  dialog.appendChild(button);
 }
 
 export function closeGameOverDialog() {
@@ -74,7 +79,9 @@ export function closeGameOverDialog() {
   dialog.close();
 }
 
-export function openGameOverDialog() {
+export function openGameOverDialog(winner) {
   const dialog = document.getElementById("gameOverDialog");
+  const winnerDiv = document.querySelector(".winner-container");
+  winnerDiv.textContent = winner + " won!";
   dialog.showModal();
 }

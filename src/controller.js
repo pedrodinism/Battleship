@@ -1,6 +1,12 @@
 import { Gameboard } from "./classes/gameboard.js";
-import { openGameOverDialog, renderGameboard } from "./render.js";
+import {
+  closeGameOverDialog,
+  openGameOverDialog,
+  renderGameboard,
+  renderGameOverDialog,
+} from "./render.js";
 import { Player } from "./classes/player.js";
+import { addListeners } from "./ui.js";
 
 let gameboardComputer = new Gameboard();
 gameboardComputer.placeShipsRandomly();
@@ -12,12 +18,29 @@ let player = new Player(true, gameboardPlayer);
 
 let winner = null;
 
+renderGameOverDialog();
+
 export function startGame() {
   renderGameboard(computer);
   renderGameboard(player);
+  addListeners();
 
   gameboardPlayer.receiveRandomAttack();
   renderGameboard(player);
+}
+
+export function restartGame() {
+  closeGameOverDialog();
+  gameboardComputer = new Gameboard();
+  gameboardComputer.placeShipsRandomly();
+  computer = new Player(false, gameboardComputer);
+
+  gameboardPlayer = new Gameboard();
+  gameboardPlayer.placeShipsRandomly();
+  player = new Player(true, gameboardPlayer);
+
+  winner = null;
+  startGame();
 }
 
 export function triggerAttack(cell) {

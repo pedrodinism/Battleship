@@ -1,4 +1,4 @@
-import { triggerAttack } from "./controller.js";
+import { triggerAttack, restartGame } from "./controller.js";
 
 //only add the listener to the gameboard!
 
@@ -12,10 +12,10 @@ export function addListeners() {
     triggerAttack(cell);
   });
 
-  /*
   const restartButton = document.getElementById("restart-button");
-  restartButton.addEventListener("click", () => {
-    restartGame();
-  });
-  */
+  if (restartButton) {
+    restartButton.addEventListener("click", () => {
+      restartGame();
+    });
+  }
 }
