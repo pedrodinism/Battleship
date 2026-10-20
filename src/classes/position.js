@@ -1,5 +1,6 @@
 export class Position {
-  constructor() {
+  constructor(index) {
+    this.index = index;
     this.isHit = false;
     this.ship = null;
   }

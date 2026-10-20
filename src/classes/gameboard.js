@@ -16,7 +16,7 @@ export class Gameboard {
   init() {
     let i = 0;
     while (i < 100) {
-      const position = new Position();
+      const position = new Position(i);
       this.positions[i] = position;
       i++;
     }
@@ -164,34 +164,25 @@ export class Gameboard {
   }
 
   getRandomPosition(length) {
-    let isFound = false;
-    let positionIndex = this.#getRandomInt(0, 99);
-    let positionCounter = 0;
-    let positions = [];
-
-    while (isFound === false && positionCounter < 100) {
-      const initialPosition = this.positions[positionIndex % 100];
-      if (initialPosition.hasShip()) {
-        positionIndex++; //if position is taken, get next one
-        positionCounter++;
+    let possiblePositions = [];
+    const positions = this.shuffleArray(this.positions);
+    for (const position of positions) {
+      if (position.hasShip()) {
         continue;
       }
-      let directionIndex = this.#getRandomInt(0, 3);
-      let directionCounter = 0;
-      while (directionCounter < 4 && isFound === false) {
-        const direction = this.directions[directionIndex % 4];
-        positions = this.#getPositions(length, positionIndex % 100, direction);
-        if (positions) {
+      const directions = this.shuffleArray(this.directions);
+      for (const direction of directions) {
+        possiblePositions = this.#getPositions(
+          length,
+          position.index,
+          direction,
+        );
+        if (possiblePositions) {
           isFound = true;
-          continue;
+          return possiblePositions;
         }
-        directionIndex++;
-        directionCounter++;
       }
-      positionIndex++;
-      positionCounter++;
     }
-    return positions;
   }
 
   receiveAttack(index) {
@@ -252,5 +243,18 @@ export class Gameboard {
       }
     }
     return true;
+  }
+
+  shuffleArray(array) {
+    const length = array.length;
+    const newArray = [];
+    let index = this.#getRandomInt(0, length - 1);
+    let counter = 0;
+    while (counter < length) {
+      newArray.push(array[index % length]);
+      index++;
+      counter++;
+    }
+    return newArray;
   }
 }

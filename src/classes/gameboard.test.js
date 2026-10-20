@@ -20,6 +20,12 @@ test("is valid area", () => {
   });
 });
 
+test("get random position", () => {
+  const gameboard = new Gameboard();
+  const positions = gameboard.getRandomPosition(2);
+  expect(positions.length).toBe(2);
+});
+
 test("place ship, with position and randomly", () => {
   const gameboard = new Gameboard();
   const ship = new Ship(5);
