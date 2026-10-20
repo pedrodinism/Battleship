@@ -6,7 +6,7 @@ test("setup", () => {
   expect(gameboard.directions[3]).toBe(-10);
 });
 
-test("is valid position", () => {
+test("is valid area", () => {
   const gameboard = new Gameboard();
   const tests = [
     { input: [7, 8, 9, 10, 11], output: false },
@@ -16,7 +16,7 @@ test("is valid position", () => {
     { input: [0, 1, 2, 3, 4], output: true },
   ];
   tests.forEach((element) => {
-    expect(gameboard.isValidPosition(element.input)).toBe(element.output);
+    expect(gameboard.isValidArea(element.input)).toBe(element.output);
   });
 });
 
@@ -46,4 +46,13 @@ test("receive attack", () => {
   gameboard.receiveAttack(1);
   expect(ship.isSunk()).toBe(true);
   expect(gameboard.allShipsSunked()).toBe(true);
+});
+
+test("send targeted attack", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  const position = [0, 1];
+  gameboard.placeShip(ship, position);
+  gameboard.receiveAttack(0);
+  expect(gameboard.getNextAttack()).toBe(1);
 });

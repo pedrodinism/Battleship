@@ -180,6 +180,10 @@ export class Gameboard {
   }
 
   receiveRandomAttack() {
+    const targetAttack = this.getNextAttack();
+    if (targetAttack) {
+      return this.receiveAttack(targetAttack);
+    }
     let counter = 0;
     let index = this.#getRandomInt(0, 99);
     let isFound = false;
@@ -191,6 +195,27 @@ export class Gameboard {
       }
       isFound = true;
       return this.receiveAttack(index % 100);
+    }
+  }
+
+  getNextAttack() {
+    let index = 0;
+    for (const position of this.positions) {
+      if (position.getIsHit() && position.hasShip()) {
+        const targets = [...this.directions].map(
+          (direction) => direction + index,
+        );
+        for (const target of targets) {
+          if (
+            target >= 0 &&
+            target < 100 &&
+            !this.positions[target].getIsHit()
+          ) {
+            return target;
+          }
+        }
+      }
+      index++;
     }
   }
 
