@@ -52,11 +52,11 @@ export class Gameboard {
     }
   }
 
-  isValidArea(array) {
+  isValidArea(array, validateShips = true) {
     let yPosition = [];
     let xPosition = [];
     for (const value of array) {
-      if (!this.isValidPosition(value)) {
+      if (!this.isValidPosition(value, validateShips)) {
         return false;
       }
       xPosition.push(value % 10);
@@ -69,45 +69,72 @@ export class Gameboard {
     }
     const neighbours = this.getNeighbours(array);
     for (const neighbour of neighbours) {
-      if (!this.isValidPosition(neighbour)) {
+      if (!this.isValidPosition(neighbour, validateShips)) {
         return false;
       }
     }
     return true;
   }
 
-  isValidPosition(position) {
+  isValidPosition(position, validateShips = true) {
     if (position < 0 || position > 99) {
       return false;
     }
-    if (this.positions[position].hasShip()) {
+    if (this.positions[position].hasShip() && validateShips) {
       return false;
     }
     return true;
   }
 
-  getNeighbours(array) {
+  getNeighbours(array, isGetOblique = true) {
     const neighbours = []; //[-11, -10, -9, -1, 1, 9, 10, 11];
     for (const position of array) {
       let positionNeighbours = [];
       if (position === 0) {
-        positionNeighbours = [1, 10, 11];
+        positionNeighbours = [1, 10];
+        if (isGetOblique) {
+          positionNeighbours.push(11);
+        }
       } else if (position === 9) {
-        positionNeighbours = [-1, 9, 10];
+        positionNeighbours = [-1, 10];
+        if (isGetOblique) {
+          positionNeighbours.push(9);
+        }
       } else if (position === 90) {
-        positionNeighbours = [-10, -9, 1];
+        positionNeighbours = [-10, 1];
+        if (isGetOblique) {
+          positionNeighbours.push(-9);
+        }
       } else if (position === 99) {
-        positionNeighbours = [-10, -11, -1];
+        positionNeighbours = [-10, -1];
+        if (isGetOblique) {
+          positionNeighbours.push(-11);
+        }
       } else if (position > 0 && position < 9) {
-        positionNeighbours = [-1, 1, 9, 10, 11];
+        positionNeighbours = [-1, 1, 10];
+        if (isGetOblique) {
+          positionNeighbours.push(...[9, 11]);
+        }
       } else if (position % 10 === 0) {
-        positionNeighbours = [-10, -9, 1, 10, 11];
+        positionNeighbours = [-10, 1, 10];
+        if (isGetOblique) {
+          positionNeighbours.push(...[-9, 11]);
+        }
       } else if (position % 9 === 0) {
-        positionNeighbours = [-11, -10, -1, 9, 10];
+        positionNeighbours = [-10, -1, 10];
+        if (isGetOblique) {
+          positionNeighbours.push(...[9, -11]);
+        }
       } else if (position > 90 && position < 99) {
-        positionNeighbours = [-11, -10, -9, -1, 1];
+        positionNeighbours = [-10, -1, 1];
+        if (isGetOblique) {
+          positionNeighbours.push(...[-9, -11]);
+        }
       } else {
-        positionNeighbours = [-11, -10, -9, -1, 1, 9, 10, 11];
+        positionNeighbours = [-10, -1, 1, 10];
+        if (isGetOblique) {
+          positionNeighbours.push(...[-9, -11, 9, 11]);
+        }
       }
       for (const value of positionNeighbours) {
         const index = position + value;
@@ -207,8 +234,7 @@ export class Gameboard {
         );
         for (const target of targets) {
           if (
-            target >= 0 &&
-            target < 100 &&
+            this.isValidArea([index, target], false) &&
             !this.positions[target].getIsHit()
           ) {
             return target;

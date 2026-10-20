@@ -48,11 +48,24 @@ test("receive attack", () => {
   expect(gameboard.allShipsSunked()).toBe(true);
 });
 
-test("send targeted attack", () => {
+test("get next attack happy flow", () => {
   const gameboard = new Gameboard();
   const ship = new Ship(2);
   const position = [0, 1];
   gameboard.placeShip(ship, position);
   gameboard.receiveAttack(0);
   expect(gameboard.getNextAttack()).toBe(1);
+});
+
+test("get next attack unhappy flow", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  const position = [8, 9];
+  gameboard.placeShip(ship, position);
+  gameboard.receiveAttack(8);
+  gameboard.receiveAttack(9);
+  gameboard.receiveAttack(7);
+  gameboard.receiveAttack(19);
+  gameboard.receiveAttack(18);
+  expect(gameboard.getNextAttack()).toBe(undefined);
 });
