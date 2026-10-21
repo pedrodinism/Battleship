@@ -78,5 +78,13 @@ test("get next attack unhappy flow", () => {
 
 test("neighbours", () => {
   const gameboard = new Gameboard();
-  expect(gameboard.getNeighbours2([0])).toBe([1, 10, 11]);
+  const tests = [
+    { input: [0], output: [1, 10, 11] },
+    { input: [99], output: [89, 98, 88] },
+    { input: [55], output: [45, 54, 56, 65, 44, 46, 64, 66] },
+    { input: [0, 1], output: [10, 11, 2, 12] },
+  ];
+  tests.forEach((element) => {
+    expect(gameboard.getNeighbours(element.input)).toEqual(element.output);
+  });
 });
