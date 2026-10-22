@@ -41,6 +41,11 @@ test("place ship, with position and randomly", () => {
   expect(placeSamePosition).toThrow();
 });
 
+test("place ships randomly", () => {
+  const gameboard = new Gameboard();
+  expect(gameboard.placeShipsRandomly()).toBe(true);
+});
+
 test("receive attack", () => {
   const gameboard = new Gameboard();
   const ship = new Ship(2);

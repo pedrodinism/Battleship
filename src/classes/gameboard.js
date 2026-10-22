@@ -39,7 +39,7 @@ export class Gameboard {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  #getPositions(length, initialIndex, direction) {
+  #getPossiblePositions(length, initialIndex, direction) {
     const indexes = [initialIndex];
     let counter = 1;
     while (counter < length) {
@@ -145,7 +145,7 @@ export class Gameboard {
       }
       const directions = this.shuffleArray(this.directions);
       for (const direction of directions) {
-        possiblePositions = this.#getPositions(
+        possiblePositions = this.#getPossiblePositions(
           length,
           position.index,
           direction,
