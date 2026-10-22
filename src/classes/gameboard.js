@@ -80,7 +80,7 @@ export class Gameboard {
     if (position < 0 || position > 99) {
       return false;
     }
-    if (this.positions[position].hasShip() && validateShips) {
+    if (validateShips && this.positions[position].hasShip()) {
       return false;
     }
     return true;
@@ -188,7 +188,7 @@ export class Gameboard {
     }
   }
 
-  getNextAttack() {
+  getNextAttackOLD() {
     let index = 0;
     for (const position of this.positions) {
       if (position.getIsHit() && position.hasShip()) {
@@ -205,6 +205,46 @@ export class Gameboard {
         }
       }
       index++;
+    }
+  }
+
+  getNextAttack() {
+    for (const position of this.positions) {
+      if (!position.getIsHit() || !position.hasShip()) {
+        continue;
+      }
+      const neighbours = this.getNeighbours([position.index]);
+      const neighboursHit = neighbours.filter(
+        (index) =>
+          this.positions[index].getIsHit() && this.positions[index].hasShip(),
+      );
+      const neighboursHitLength = neighboursHit.length;
+
+      switch (neighboursHitLength) {
+        case 2:
+          continue;
+        case 1:
+          const nextAttack = 2 * position.index - neighboursHit; //neighbours h
+          if (
+            this.isValidArea([position.index, nextAttack], false) &&
+            !this.positions[nextAttack].getIsHit()
+          ) {
+            return nextAttack;
+          }
+          continue;
+        case 0:
+          const targets = [...this.directions].map(
+            (direction) => direction + position.index,
+          );
+          for (const target of targets) {
+            if (
+              this.isValidArea([position.index, target], false) &&
+              !this.positions[target].getIsHit()
+            ) {
+              return target;
+            }
+          }
+      }
     }
   }
 

@@ -6,6 +6,4 @@ Decided to "transform" coordinates into indexes: ex: 0 -> [1,1]; 1 -> [1,2], etc
 
 LEFT TO DO
 
-- Add 'intelligence' - if there is a position hit, try the neighbours next
-    - Understand the direction
 - Review code, check if it can be improved

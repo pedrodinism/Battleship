@@ -54,28 +54,6 @@ test("receive attack", () => {
   expect(gameboard.allShipsSunked()).toBe(true);
 });
 
-test("get next attack happy flow", () => {
-  const gameboard = new Gameboard();
-  const ship = new Ship(2);
-  const position = [0, 1];
-  gameboard.placeShip(ship, position);
-  gameboard.receiveAttack(0);
-  expect(gameboard.getNextAttack()).toBe(1);
-});
-
-test("get next attack unhappy flow", () => {
-  const gameboard = new Gameboard();
-  const ship = new Ship(2);
-  const position = [8, 9];
-  gameboard.placeShip(ship, position);
-  gameboard.receiveAttack(8);
-  gameboard.receiveAttack(9);
-  gameboard.receiveAttack(7);
-  gameboard.receiveAttack(19);
-  gameboard.receiveAttack(18);
-  expect(gameboard.getNextAttack()).toBe(undefined);
-});
-
 test("neighbours", () => {
   const gameboard = new Gameboard();
   const tests = [
@@ -90,8 +68,54 @@ test("neighbours", () => {
     },
   ];
   tests.forEach((element) => {
-    expect(gameboard.getNeighbours2(element.input).sort()).toEqual(
+    expect(gameboard.getNeighbours(element.input).sort()).toEqual(
       element.output.sort(),
     );
   });
+});
+
+test("GetNextAttack happy flow", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(3);
+  const position = [0, 1, 2];
+  gameboard.placeShip(ship, position);
+  gameboard.receiveAttack(0);
+  gameboard.receiveAttack(1);
+  expect(gameboard.getNextAttack()).toBe(2);
+});
+
+test("GetNextAttack return undefined", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(3);
+  const position = [0, 1, 2];
+  gameboard.placeShip(ship, position);
+  gameboard.receiveAttack(0);
+  gameboard.receiveAttack(1);
+  gameboard.receiveAttack(2);
+  gameboard.receiveAttack(3);
+  expect(gameboard.getNextAttack()).toBe(undefined);
+});
+
+test("GetNextAttack return undefined 2", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  const position = [8, 9];
+  gameboard.placeShip(ship, position);
+  gameboard.receiveAttack(8);
+  gameboard.receiveAttack(9);
+  gameboard.receiveAttack(7);
+  gameboard.receiveAttack(19);
+  gameboard.receiveAttack(18);
+  expect(gameboard.getNextAttack()).toBe(undefined);
+});
+
+test("GetNextAttack vertical", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(3);
+  const position = [1, 11, 21];
+  gameboard.placeShip(ship, position);
+  gameboard.receiveAttack(1);
+  gameboard.receiveAttack(0);
+  gameboard.receiveAttack(2);
+  expect(gameboard.getNextAttack()).toBe(11);
 });
