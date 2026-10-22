@@ -83,8 +83,15 @@ test("neighbours", () => {
     { input: [99], output: [89, 98, 88] },
     { input: [55], output: [45, 54, 56, 65, 44, 46, 64, 66] },
     { input: [0, 1], output: [10, 11, 2, 12] },
+    { input: [1, 11, 21], output: [0, 2, 10, 12, 20, 22, 31, 30, 32] },
+    {
+      input: [11, 21, 31],
+      output: [0, 1, 2, 10, 12, 20, 22, 30, 32, 40, 41, 42],
+    },
   ];
   tests.forEach((element) => {
-    expect(gameboard.getNeighbours(element.input)).toEqual(element.output);
+    expect(gameboard.getNeighbours2(element.input).sort()).toEqual(
+      element.output.sort(),
+    );
   });
 });

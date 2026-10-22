@@ -96,7 +96,7 @@ export class Gameboard {
     for (const position of array) {
       for (const vector of vectors) {
         const neighbour = vector + position;
-        if (!this.isValidPosition(neighbour)) {
+        if (!this.isValidPosition(neighbour, false)) {
           continue;
         }
         const xPosition = position % 10;
